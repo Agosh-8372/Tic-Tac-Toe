@@ -13,4 +13,21 @@ function resetPlayBoard()
 		playBoard[$position]=0;
 	done
 }
+
+
+function toss()
+{
+	random=$((RANDOM%2))
+		if [ $random -eq 0 ]
+		then
+			playerChance=1
+			computerChance=0
+			echo "Players chance first"
+		else
+			playerChance=0
+			computerChance=1;
+			echo "Computers chance first"
+		fi
+}
 resetPlayBoard
+toss
