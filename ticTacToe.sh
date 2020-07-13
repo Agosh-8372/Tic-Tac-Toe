@@ -20,9 +20,27 @@ function toss()
 	random=$((RANDOM%2))
 		if [ $random -eq 0 ]
 		then
-			echo "Players chance first"
+			read -p "Players chance first,choose your letter X or O" input
+				if [[ $input == X ]]
+				then
+					userLetter=X;
+					compLetter=O;
+				else
+					userLetter=O;
+					compLetter=X;
+				fi
 		else
 			echo "Computers chance first"
+			choose=$((RANDOM%2))
+				if [ $choose -eq 0 ]
+				then
+					userLetter=O;
+					compLetter=X;
+				else
+					userLetter=X;
+					compLetter=O;
+				fi
+
 		fi
 }
 toss
