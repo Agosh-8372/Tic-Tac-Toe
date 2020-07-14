@@ -1,4 +1,3 @@
-#!/bin/bash -x
 NUM_ROWS=3
 NUM=COLS=3
 BOARD_SIZE=$((NUM_ROWS*NUM_COLS))
@@ -8,10 +7,7 @@ declare -a playBoard
 
 function resetPlayBoard()
 {
-	for((position=1;position<=BOARD_SIZE;position++))
-	do
-		playBoard[$position]=0;
-	done
+	playBoard=(- - - - - - - - -)
 }
 
 
@@ -43,4 +39,14 @@ function toss()
 
 		fi
 }
+function displayBoard(){
+	echo "Game Board At Display"
+		for (( rcount=0;rcount<${#playBoard[@]};))
+		do
+			echo "|${playBoard[rcount]}|${playBoard[rcount+1]}|${playBoard[rcount+2]}|"
+			rcount=$((rcount+3))
+		done
+}
+resetPlayBoard
 toss
+displayBoard
