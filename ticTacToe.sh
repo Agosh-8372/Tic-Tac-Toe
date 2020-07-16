@@ -8,6 +8,7 @@ computer=0
 gameStop=0
 countX=0
 countO=0
+
 declare -a playBoard
 
 function resetPlayBoard()
@@ -26,9 +27,9 @@ then
 	read -p "Players chance first,choose your letter X or O " input
 	if [[ $input == X ]]
 	then
-		userLetterTemp=X;
+		userLetter=X;
 	else
-		userLetterTemp=O;
+		userLetter=O;
 	fi
 else
 	echo "Computers chance first"
@@ -37,33 +38,38 @@ else
 	choose=$((RANDOM%2))
 	if [ $choose -eq 0 ]
 	then
-		userLetterTemp=O;
+		compLetter=O;
 	else
-		userLetterTemp=X;
+		compLetter=X;
 	fi
 fi
 }
 
 function symbolAssign()
 {
-if [[ $chance == player &&  $userLetterTemp == X ]]
+if [[ $chance == player &&  $userLetter == X ]]
 then
-	userLetter=X
+	#userLetterTemp=X
 	compLetter=O
-elif [[ $chance == player &&  $userLetterTemp == O ]]
-then
-	userLetter=O
+#elif [[ $chance == player &&  $userLetterTemp == O ]]
+#then
+else
+	#userLetter=O
 	compLetter=X
-elif [[ $chance == computer &&  $userLetterTemp == X ]]
+fi
+if [[ $chance == computer &&  $compLetter == X ]]
 then
-	compLetter=X
+	#compLetter=X
 	userLetter=O
 else
-	compLetter=O
+	#compLetter=O
 	userLetter=X
 fi
 }
-
+function computerPlay(){
+	val=$(((RANDOM%9)+1))
+ computerMove $val
+}
 function checkDraw()
 {
    if [[ $countX -eq 5 && $countO -eq 4 ]] || [[ $countX -eq 4 && $countO -eq 5 ]]
@@ -90,7 +96,6 @@ then
 else
 	echo "Error"
 fi
-gamePlay
 }
 
 function user()
@@ -119,7 +124,7 @@ function checkChance()
 {
 for (( countV=0; countV<${#playBoard[@]};countV++ ))
 do
-	if [[ ${playBoard[countV]} == - ]]
+	if [[ ${playBoard[countV]} == "-" ]]
 	then
 		chanceSwitch
 		break;
@@ -147,44 +152,59 @@ checkWin 2 5 8
 checkWin 0 4 8
 checkWin 2 4 6
 }
+function userInputPosition()
+{
+echo "players chance,Please enter a position to insert"
+read user_input
+yourMove $user_input
+}
 
 function yourMove()
 {
-echo "$chance turn,please enter a position to insert"
-read r
-if [[ ${playBoard[$((r-1))]} == "-" ]]
+pos=$1
+if [[ ${playBoard[$((pos-1))]} == "-" ]]
 then
-	playBoard[$((r-1))]=$userLetterTemp
+	playBoard[$((pos-1))]=$userLetter
 else
-	echo "position Invalid enter values again"
-	yourMove
+	userInputPosition
+fi
+}
+
+function computerMove()
+{
+pos=$1
+if [[ ${playBoard[$((pos-1))]} == "-" ]]
+then
+   playBoard[$((pos-1))]=$compLetter
+else
+   computerPlay
 fi
 }
 
 function gamePlay()
 {
-while (( $gameStop == 0 ))
-do
 	case $chance in
 	player)
-		yourMove
+		userInputPosition
 		displayBoard
 		checkWinLoose
 		checkDraw
 		checkChance
 			;;
 	computer)
-		yourMove
+		computerPlay
 		displayBoard
 		checkWinLoose
 		checkDraw
 		checkChance
 			;;
 	esac
-done
 }
 resetPlayBoard
 toss
 symbolAssign
 displayBoard
+while (( $gameStop == 0 ))
+do
 gamePlay
+done
