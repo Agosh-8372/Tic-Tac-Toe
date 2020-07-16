@@ -67,8 +67,8 @@ function displayBoard()
 	echo "Game Board At Display"
 	for (( count=0;count<${#playBoard[@]};))
 	do
-   	echo "|${playBoard[count]}|${playBoard[count+1]}|${playBoard[count+2]}|"
-   	count=$((count+3))
+		echo "|${playBoard[count]}|${playBoard[count+1]}|${playBoard[count+2]}|"
+		count=$((count+3))
 	done
 }
 
@@ -88,14 +88,14 @@ function chanceSwitch()
 {
 	if [[ $chance == player ]]
 	then
-   	((countO++))
-   	computer
+		((countO++))
+		computer
 	elif [[ $chance == computer ]]
 	then
-   	((countX++))
-   	user
+		((countX++))
+		user
 	else
-   	echo "Error"
+		echo "Error"
 	fi
 }
 
@@ -150,9 +150,9 @@ function computerMove()
 	c=$1
 	if [[ ${playBoard[$((c))]} == "-" ]]
 	then
-   	playBoard[$((c))]=$compLetter
+		playBoard[$((c))]=$compLetter
 	else
-   	compInputValue
+		compInputValue
 	fi
 }
 
