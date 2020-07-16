@@ -51,10 +51,10 @@ function symbolAssign()
 	if [[ $chance == player &&  $userLetter == X ]]
 	then
 		compLetter=O
-	else
+	elif [[ $chance == player && $userLetter == O ]]
+	then
 		compLetter=X
-	fi
-	if [[ $chance == computer &&  $compLetter == X ]]
+	elif [[ $chance == computer &&  $compLetter == X ]]
 	then
 		userLetter=O
 	else
@@ -148,24 +148,30 @@ function checkWinLoose()
 function computerMove()
 {
 	c=$1
-	if [[ ${playBoard[$((c))]} == "-" ]]
+	if [[ ${playBoard[$c]} == "-" ]]
 	then
-		playBoard[$((c))]=$compLetter
+		playBoard[$c]=$compLetter
 	else
-		compInputValue
+		computerMove
 	fi
+	return;
 }
 
 function compInputValue()
 {
-	cval=$((RANDOM%9))
-	computerMove $cval
+	if [ $flag -eq 0 ]
+	then
+		cval=$((RANDOM%9))
+		computerMove $cval
+	else
+		flag=0
+	fi
 }
 
 
 function checkWinPos()
 {
-	if [[ ${playBoard[$1]} == "-" && ${playBoard[$2]} == $compLetter && ${playBoard[$3]} == $compLetter ]]
+	if [[ ${playBoard[$1]} == "-" && ${playBoard[$2]} == $compLetter && ${playBoard[$3]} == $compLetter  ]]
 	then
 		playBoard[$1]=$compLetter
 		flag=1
@@ -177,23 +183,51 @@ function checkWinPos()
 	then
 		playBoard[$3]=$compLetter
 		flag=1
+	elif [[ ${playBoard[$1]} == "-" && ${playBoard[$2]} == $userLetter && ${playBoard[$3]} == $userLetter ]]
+	then
+		playBoard[$1]=$compLetter
+		flag=1
+	elif [[ ${playBoard[$2]} == "-" && ${playBoard[$1]} == $userLetter && ${playBoard[$3]} == $userLetter ]]
+	then
+		playBoard[$2]=$compLetter
+		flag=1
+	elif [[ ${playBoard[$3]} == "-" && ${playBoard[$1]} == $userLetter && ${playBoard[$2]} == $userLLetter ]]
+	then
+		playBoard[$3]=$compLetter
+		flag=1
    fi
 }
 
 
 function computerPlay(){
-	checkWinPos 0 1 2
-	checkWinPos 3 4 5
-	checkWinPos 6 7 8
-	checkWinPos 0 3 6
-	checkWinPos 1 4 7
-	checkWinPos 2 5 8
-	checkWinPos 0 4 8
-	checkWinPos 2 4 6
-	if [ $flag -eq 0 ]
-	then
-		compInputValue
+for ((i=0;i<9;((i=i+3))))
+do
+	if [[ $flag -eq  0 ]]
+   then
+	checkWinPos i i+1 i+2
 	fi
+done
+for ((i=0;i<3;i++))
+do
+   if [[ $flag -eq  0 ]]
+   then
+   checkWinPos i i+3 i+6
+   fi
+done
+for ((i=0;i<1;i++))
+do
+   if [[ $flag -eq  0 ]]
+   then
+   checkWinPos i i+4 i+8
+   fi
+done
+for ((i=2;i<3;i++))
+do
+   if [[ $flag -eq  0 ]]
+   then
+   checkWinPos i i+2 i+4
+   fi
+done
 }
 
 function yourMove()
@@ -226,6 +260,7 @@ function gamePlay()
 			;;
 	computer)
 		computerPlay
+		compInputValue
 		displayBoard
 		checkWinLoose
 		checkDraw
