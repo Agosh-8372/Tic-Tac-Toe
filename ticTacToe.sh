@@ -195,39 +195,40 @@ function checkWinPos()
 	then
 		playBoard[$3]=$compLetter
 		flag=1
-   fi
+	fi
 }
 
 
-function computerPlay(){
-for ((i=0;i<9;((i=i+3))))
-do
-	if [[ $flag -eq  0 ]]
-   then
-	checkWinPos i i+1 i+2
-	fi
-done
-for ((i=0;i<3;i++))
-do
-   if [[ $flag -eq  0 ]]
-   then
-   checkWinPos i i+3 i+6
-   fi
-done
-for ((i=0;i<1;i++))
-do
-   if [[ $flag -eq  0 ]]
-   then
-   checkWinPos i i+4 i+8
-   fi
-done
-for ((i=2;i<3;i++))
-do
-   if [[ $flag -eq  0 ]]
-   then
-   checkWinPos i i+2 i+4
-   fi
-done
+function computerPlay()
+{
+	for ((i=0;i<9;((i=i+3))))
+	do
+		if [[ $flag -eq  0 ]]
+		then
+			checkWinPos i i+1 i+2
+		fi
+	done
+	for ((i=0;i<3;i++))
+	do
+		if [[ $flag -eq  0 ]]
+		then
+			checkWinPos i i+3 i+6
+		fi
+	done
+	for ((i=0;i<1;i++))
+	do
+		if [[ $flag -eq  0 ]]
+		then
+			checkWinPos i i+4 i+8
+		fi
+	done
+	for ((i=2;i<3;i++))
+	do
+		if [[ $flag -eq  0 ]]
+		then
+			checkWinPos i i+2 i+4
+		fi
+	done
 }
 
 function yourMove()
