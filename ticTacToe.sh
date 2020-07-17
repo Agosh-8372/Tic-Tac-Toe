@@ -114,11 +114,11 @@ function checkDraw()
 			((++total))
 		fi
 	done
-		if [[ $total -eq $BOARD_SIZE ]]
-		then
-			echo "Match is draw"
-			gameStop=1;
-		fi
+	if [[ $total -eq $BOARD_SIZE ]]
+	then
+		echo "Match is draw"
+		gameStop=1;
+	fi
 }
 
 function checkWin()
