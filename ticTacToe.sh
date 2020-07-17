@@ -171,64 +171,66 @@ function compInputValue()
 
 function checkWinPos()
 {
-	if [[ ${playBoard[$1]} == "-" && ${playBoard[$2]} == $compLetter && ${playBoard[$3]} == $compLetter  ]]
+	if [[ ${playBoard[$1]} == "-" && ${playBoard[$2]} == $compLetter && ${playBoard[$3]} == $compLetter  && $flag == 0  ]]
 	then
 		playBoard[$1]=$compLetter
 		flag=1
-	elif [[ ${playBoard[$2]} == "-" && ${playBoard[$1]} == $compLetter && ${playBoard[$3]} == $compLetter ]]
+	elif [[ ${playBoard[$2]} == "-" && ${playBoard[$1]} == $compLetter && ${playBoard[$3]} == $compLetter  && $flag == 0 ]]
 	then
 		playBoard[$2]=$compLetter
 		flag=1
-	elif [[ ${playBoard[$3]} == "-" && ${playBoard[$1]} == $compLetter && ${playBoard[$2]} == $compLetter ]]
+	elif [[ ${playBoard[$3]} == "-" && ${playBoard[$1]} == $compLetter && ${playBoard[$2]} == $compLetter  && $flag == 0 ]]
 	then
 		playBoard[$3]=$compLetter
 		flag=1
-	elif [[ ${playBoard[$1]} == "-" && ${playBoard[$2]} == $userLetter && ${playBoard[$3]} == $userLetter ]]
+	elif [[ ${playBoard[$1]} == "-" && ${playBoard[$2]} == $userLetter && ${playBoard[$3]} == $userLetter && $flag == 0 ]]
 	then
 		playBoard[$1]=$compLetter
 		flag=1
-	elif [[ ${playBoard[$2]} == "-" && ${playBoard[$1]} == $userLetter && ${playBoard[$3]} == $userLetter ]]
+	elif [[ ${playBoard[$2]} == "-" && ${playBoard[$1]} == $userLetter && ${playBoard[$3]} == $userLetter && $flag == 0 ]]
 	then
 		playBoard[$2]=$compLetter
 		flag=1
-	elif [[ ${playBoard[$3]} == "-" && ${playBoard[$1]} == $userLetter && ${playBoard[$2]} == $userLLetter ]]
+	elif [[ ${playBoard[$3]} == "-" && ${playBoard[$1]} == $userLetter && ${playBoard[$2]} == $userLetter && $flag == 0 ]]
 	then
 		playBoard[$3]=$compLetter
 		flag=1
 	fi
+return;
 }
 
+function checkCorners()
+{
+	if [[ ${playBoard[0]} == "-" && $flag == 0 ]]
+	then
+		playBoard[0]=$compLetter
+		flag=1
+	elif [[ ${playBoard[2]} == "-"  && $flag == 0 ]]
+	then
+		playBoard[2]=$compLetter
+		flag=1
+	elif [[ ${playBoard[6]} == "-"  && $flag == 0 ]]
+	then
+		playBoard[6]=$compLetter
+		flag=1
+	elif [[ ${playBoard[8]} ==  "-"  && $flag == 0 ]]
+	then
+		playBoard[8]=$compLetter
+		flag=1
+	fi
+return;
+}
 
 function computerPlay()
 {
-	for ((i=0;i<9;((i=i+3))))
-	do
-		if [[ $flag -eq  0 ]]
-		then
-			checkWinPos i i+1 i+2
-		fi
-	done
-	for ((i=0;i<3;i++))
-	do
-		if [[ $flag -eq  0 ]]
-		then
-			checkWinPos i i+3 i+6
-		fi
-	done
-	for ((i=0;i<1;i++))
-	do
-		if [[ $flag -eq  0 ]]
-		then
-			checkWinPos i i+4 i+8
-		fi
-	done
-	for ((i=2;i<3;i++))
-	do
-		if [[ $flag -eq  0 ]]
-		then
-			checkWinPos i i+2 i+4
-		fi
-	done
+	checkWinPos 0 1 2
+	checkWinPos 3 4 5
+	checkWinPos 6 7 8
+	checkWinPos 0 3 6
+	checkWinPos 1 4 7
+	checkWinPos 2 5 8
+	checkWinPos 0 4 8
+	checkWinPos 2 4 6
 }
 
 function yourMove()
@@ -261,6 +263,7 @@ function gamePlay()
 			;;
 	computer)
 		computerPlay
+		checkCorners
 		compInputValue
 		displayBoard
 		checkWinLoose
