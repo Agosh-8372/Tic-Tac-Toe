@@ -251,28 +251,39 @@ function userInputPosition()
 	read user_input
 	yourMove $user_input
 }
+function playerExecution()
+{
+	userInputPosition
+	displayBoard
+	checkWinLoose
+	checkDraw
+	checkChance
+}
+function computerExecution()
+{
+	computerPlay
+	checkCornersCentre
+	compInputValueSides
+	displayBoard
+	checkWinLoose
+	checkDraw
+	checkChance
+}
+
+
 
 function gamePlay()
 {
 	case $chance in
-	player)
-		userInputPosition
-		displayBoard
-		checkWinLoose
-		checkDraw
-		checkChance
+		player)
+			playerExecution
 			;;
-	computer)
-		computerPlay
-		checkCornersCentre
-		compInputValueSides
-		displayBoard
-		checkWinLoose
-		checkDraw
-		checkChance
+		computer)
+			computerExecution
 			;;
 	esac
 }
+
 resetPlayBoard
 toss
 symbolAssign
