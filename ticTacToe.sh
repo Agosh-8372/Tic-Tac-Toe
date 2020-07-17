@@ -1,14 +1,13 @@
 NUM_ROWS=3
 NUM_COLS=3
 BOARD_SIZE=$((NUM_ROWS * NUM_COLS))
+
 userLetterTemp=0
 chance=""
 player=0
 flag=0
 computer=0
 gameStop=0
-countX=0
-countO=0
 
 declare -a playBoard
 
@@ -24,7 +23,6 @@ function toss()
 	if [[ $random -eq 0 ]]
 	then
 		chance="player";
-		#((countX++))
 		read -p "Players chance first,choose your letter X or O " input
 		if [[ $input == X ]]
 		then
@@ -35,7 +33,6 @@ function toss()
 	else
 		echo "Computers chance first"
 		chance="computer";
-		#((countO++))
 		choose=$((RANDOM%2))
 		if [ $choose -eq 0 ]
 		then
@@ -88,20 +85,18 @@ function chanceSwitch()
 {
 	if [[ $chance == player ]]
 	then
-		((countO++))
 		computer
 	elif [[ $chance == computer ]]
 	then
-		((countX++))
 		user
 	fi
 }
 
 function checkChance()
 {
-	for (( countV=0; countV<${#playBoard[@]};countV++ ))
+	for (( count=0; count<${#playBoard[@]};count++ ))
 	do
-		if [[ ${playBoard[countV]} == "-" ]]
+		if [[ ${playBoard[count]} == "-" ]]
 		then
 			chanceSwitch
 			break;
@@ -123,7 +118,7 @@ function checkDraw()
 		then
 			echo "Match is draw"
 			gameStop=1;
-      fi
+		fi
 }
 
 function checkWin()
@@ -149,10 +144,10 @@ function checkWinLoose()
 
 function computerMove()
 {
-	c=$1
-	if [[ ${playBoard[$c]} == "-" ]]
+	place=$1
+	if [[ ${playBoard[$place]} == "-" ]]
 	then
-		playBoard[$c]=$compLetter
+		playBoard[$place]=$compLetter
 	else
 		compInputValueSides
 	fi
@@ -163,8 +158,8 @@ function compInputValueSides()
 {
 	if [ $flag -eq 0 ]
 	then
-		cval=$((RANDOM%9))
-		computerMove $cval
+		compPos=$((RANDOM%9))
+		computerMove $compPos
 	else
 		flag=0
 	fi
