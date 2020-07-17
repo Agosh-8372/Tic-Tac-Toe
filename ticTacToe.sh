@@ -94,8 +94,6 @@ function chanceSwitch()
 	then
 		((countX++))
 		user
-	else
-		echo "Error"
 	fi
 }
 
