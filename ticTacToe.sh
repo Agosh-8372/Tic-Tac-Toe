@@ -157,7 +157,7 @@ function computerMove()
 	return;
 }
 
-function compInputValue()
+function compInputValueSides()
 {
 	if [ $flag -eq 0 ]
 	then
@@ -196,7 +196,7 @@ function checkWinPos()
 		playBoard[$3]=$compLetter
 		flag=1
 	fi
-return;
+	return;
 }
 
 function checkCornersCentre()
@@ -222,7 +222,7 @@ function checkCornersCentre()
 		playBoard[4]=$compLetter
 		flag=1
 	fi
-return;
+	return;
 }
 
 function computerPlay()
@@ -268,7 +268,7 @@ function gamePlay()
 	computer)
 		computerPlay
 		checkCornersCentre
-		compInputValue
+		compInputValueSides
 		displayBoard
 		checkWinLoose
 		checkDraw
