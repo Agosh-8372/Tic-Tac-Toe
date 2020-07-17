@@ -199,7 +199,7 @@ function checkWinPos()
 return;
 }
 
-function checkCorners()
+function checkCornersCentre()
 {
 	if [[ ${playBoard[0]} == "-" && $flag == 0 ]]
 	then
@@ -216,6 +216,10 @@ function checkCorners()
 	elif [[ ${playBoard[8]} ==  "-"  && $flag == 0 ]]
 	then
 		playBoard[8]=$compLetter
+		flag=1
+	elif [[ ${playBoard[4]} ==  "-" &&  $flag == 0 ]]
+	then
+		playBoard[4]=$compLetter
 		flag=1
 	fi
 return;
@@ -263,7 +267,7 @@ function gamePlay()
 			;;
 	computer)
 		computerPlay
-		checkCorners
+		checkCornersCentre
 		compInputValue
 		displayBoard
 		checkWinLoose
